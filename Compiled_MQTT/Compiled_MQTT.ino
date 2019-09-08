@@ -1,4 +1,3 @@
-
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <DHT.h>
@@ -6,13 +5,13 @@
 #include <Adafruit_Sensor.h>
 
 
-#define DHTPIN D5 // pino que estamos conectado
+#define DHTPIN D4 // pino que estamos conectado
 #define DHTTYPE DHT11 // DHT 11
 // Update these with values suitable for your network.
 
 //informações da rede WIFI
-const char* ssid = "Precioso";                 //SSID da rede WIFI
-const char* password =  "naopossopassar";    //senha da rede wifi
+const char* ssid = "Mauricio";                 //SSID da rede WIFI
+const char* password =  "1nt3rn3t";    //senha da rede wifi
 String text =  "naopossopassar";
 //informações do broker MQTT - Verifique as informações geradas pelo CloudMQTT
 const char* mqttServer = "soldier.cloudmqtt.com";   //server
@@ -27,7 +26,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
-int delayTime = 30000;
+int delayTime = 3000;
 
 void setup_wifi() {
 
@@ -80,7 +79,7 @@ void reconnect() {
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
-    if (client.connect(clientId.c_str())) {
+    if (client.connect(clientId.c_str(), mqttUser, mqttPassword )) {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("outTopic", "hello world");
