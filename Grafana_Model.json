@@ -20,11 +20,85 @@
   "panels": [
     {
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 4,
         "x": 0,
         "y": 0
       },
+      "hideTimeOverride": true,
+      "id": 14,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "last"
+          ],
+          "defaults": {
+            "decimals": 1,
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 40
+              },
+              {
+                "color": "green",
+                "value": 60
+              },
+              {
+                "color": "#EAB839",
+                "value": 90
+              }
+            ],
+            "unit": "humidity"
+          },
+          "override": {},
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.3.5",
+      "targets": [
+        {
+          "groupBy": [],
+          "measurement": "solo",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": "3h",
+      "title": "Solo Atual",
+      "type": "gauge"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "hideTimeOverride": true,
       "id": 8,
       "options": {
         "fieldOptions": {
@@ -62,7 +136,7 @@
       "targets": [
         {
           "groupBy": [],
-          "measurement": "clima",
+          "measurement": "Humidade",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -77,27 +151,22 @@
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "topic",
-              "operator": "=",
-              "value": "Humidade"
-            }
-          ]
+          "tags": []
         }
       ],
       "timeFrom": null,
-      "timeShift": null,
+      "timeShift": "3h",
       "title": "Humidade Atual",
       "type": "gauge"
     },
     {
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 4,
-        "x": 4,
+        "x": 8,
         "y": 0
       },
+      "hideTimeOverride": true,
       "id": 4,
       "options": {
         "fieldOptions": {
@@ -105,6 +174,7 @@
             "last"
           ],
           "defaults": {
+            "decimals": 1,
             "mappings": [],
             "max": 50,
             "min": 0,
@@ -131,7 +201,7 @@
       "targets": [
         {
           "groupBy": [],
-          "measurement": "clima",
+          "measurement": "Temperatura",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -146,19 +216,124 @@
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "topic",
-              "operator": "=",
-              "value": "Temperatura"
-            }
-          ]
+          "tags": []
         }
       ],
       "timeFrom": null,
-      "timeShift": null,
+      "timeShift": "3h",
       "title": "Temperatura Atual",
       "type": "gauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 12,
+      "legend": {
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "solo",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT \"value\" FROM \"solo\" WHERE $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": "3h",
+      "title": "Solo Historico ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": 1,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "humidity",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "aliasColors": {},
@@ -168,11 +343,12 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 4,
-        "w": 16,
-        "x": 8,
-        "y": 0
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 5
       },
+      "hideTimeOverride": true,
       "id": 6,
       "legend": {
         "avg": true,
@@ -216,6 +392,8 @@
           "measurement": "clima",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT \"time\", \"value\"  FROM \"Humidade\" WHERE  $timeFilter ",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -244,7 +422,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
+      "timeShift": "3h",
       "title": "Histórico de Humidade",
       "tooltip": {
         "shared": true,
@@ -288,13 +466,14 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
+      "fillGradient": 1,
       "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 4
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 5
       },
+      "hideTimeOverride": true,
       "id": 2,
       "legend": {
         "alignAsTable": false,
@@ -339,7 +518,7 @@
           "measurement": "clima",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"value\") FROM \"clima\" WHERE $timeFilter  and topic = 'Temperatura' GROUP BY time($__interval) fill(null)",
+          "query": "SELECT \"time\",  \"value\" FROM \"Temperatura\" WHERE $timeFilter ",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -363,11 +542,11 @@
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
+      "timeShift": "3h",
       "title": "Histórico de Temperatura",
       "tooltip": {
-        "shared": true,
-        "sort": 0,
+        "shared": false,
+        "sort": 1,
         "value_type": "individual"
       },
       "type": "graph",
@@ -402,73 +581,55 @@
       }
     },
     {
-      "columns": [],
-      "fontSize": "80%",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 10
       },
-      "id": 10,
-      "options": {},
-      "pageSize": 5,
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
+      "hideTimeOverride": true,
+      "id": 16,
+      "legend": {
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
       },
-      "styles": [
-        {
-          "alias": "Time",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "groupBy": [],
-          "hide": false,
-          "measurement": "clima",
+          "measurement": "Humidade",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select \"topic\", \"value\" from clima order by \"time\" desc limit 5",
-          "rawQuery": true,
+          "query": "SELECT \"time\", \"value\"  FROM \"Humidade\" WHERE $timeFilter",
+          "rawQuery": false,
           "refId": "A",
-          "resultFormat": "table",
+          "resultFormat": "time_series",
           "select": [
-            [
-              {
-                "params": [
-                  "datetime"
-                ],
-                "type": "field"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "topic"
-                ],
-                "type": "field"
-              }
-            ],
             [
               {
                 "params": [
@@ -478,23 +639,89 @@
               }
             ]
           ],
-          "tags": [
+          "tags": []
+        },
+        {
+          "groupBy": [
             {
-              "key": "datetime",
-              "operator": ">",
-              "value": "20190908T15:20:00"
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
-          ]
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"value\" FROM \"solo\" WHERE $timeFilter ",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
+      "thresholds": [],
       "timeFrom": null,
-      "timeShift": null,
-      "title": "Ultimas mensagens",
-      "transform": "table",
-      "type": "table"
+      "timeRegions": [],
+      "timeShift": "3h",
+      "title": "Humidade",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "humidity",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
-  "refresh": "10s",
+  "refresh": "30s",
   "schemaVersion": 19,
   "style": "dark",
   "tags": [],
@@ -502,7 +729,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -524,5 +751,5 @@
   "timezone": "utc",
   "title": "Clima",
   "uid": "kXkc2KcWz",
-  "version": 12
+  "version": 20
 }
