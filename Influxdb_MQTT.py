@@ -47,22 +47,53 @@ def on_message(client, userdata, msg):
 
 
 def _send_sensor_data_to_influxdb(topic, value):
-    json_body = [
-        {
-            "measurement": "clima",
-            "tags": {
-                "host": "DHT11",
-                "region": "SMJ-ES"
-            },
-            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "fields": {
-                "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "topic": topic,
-                "value": float(value)
+    if topic == "Temperatura":
+        json_body = [
+            {
+                "measurement":"Temperatura",
+                "tags": {
+                    "host": "DHT11",
+                    "region": "SMJ-ES"
+                },
+                "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "fields": {
+                    "topic": "Temperatura",
+                    "value": float(value)
+                }
             }
-        }
-    ]
+        ]
+    if topic == "Humidade":
+        json_body = [
+            {
+                "measurement":"Humidade",
+                "tags": {
+                    "host": "DHT11",
+                    "region": "SMJ-ES"
+                },
+                "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "fields": {
+                    "topic": "Humidade",
+                    "value": float(value)
+                }
+            }
+        ]
+    if topic == "Solo":
+        json_body = [
+            {
+                "measurement":"solo",
+                "tags": {
+                    "host": "HIGROMETO",
+                    "region": "SMJ-ES"
+                },
+                "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "fields": {
+                    "topic": topic,
+                    "value": float(value)
+                }
+            }
+        ]
     influxdb_client.write_points(json_body)
+   # print(json_body)
 
 
 def _init_influxdb_database():
