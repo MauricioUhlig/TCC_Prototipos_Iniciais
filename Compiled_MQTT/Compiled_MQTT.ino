@@ -4,7 +4,9 @@
 #include <DHT_U.h>
 #include <Adafruit_Sensor.h>
 
-
+#define pino_sinal_analogico A0
+#define powerPin D5
+ 
 #define DHTPIN D4 // pino que estamos conectado
 #define DHTTYPE DHT11 // DHT 11
 // Update these with values suitable for your network.
@@ -12,21 +14,28 @@
 //informações da rede WIFI
 const char* ssid = "Mauricio";                 //SSID da rede WIFI
 const char* password =  "1nt3rn3t";    //senha da rede wifi
-String text =  "naopossopassar";
+
 //informações do broker MQTT - Verifique as informações geradas pelo CloudMQTT
 const char* mqttServer = "soldier.cloudmqtt.com";   //server
 const char* mqttUser = "psfhemdn";              //user
 const char* mqttPassword = "oenianQ47UJe";      //password
 const int mqttPort = 16684;                     //port
-const char* mqttTopicSub ="ledplaca/L13";            //tópico que sera assinado
 
+
+const int interDelay = 200;
+
+float valor_analogico;
+float percentual_umidade_solo;
+bool powerOn = false;
+ 
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
-int delayTime = 3000;
+int delayTime = 30000;
+int Fl_Bomba = 0;
 
 void setup_wifi() {
 
@@ -51,15 +60,16 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
+void Subscribe(){
+  client.subscribe("delayTime");
+  client.subscribe("SubBomba");
+}
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
+ /*
   Serial.print(topic);
-  Serial.print("] ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
-  Serial.println();
-
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
     digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
@@ -68,6 +78,25 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else {
     digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
   }
+ */
+    payload[length] = '\0'; // Make payload a string by NULL terminating it.
+    if(!strcmp(topic,"delayTime")){
+      delayTime = ((int)atoi((char *)payload))*1000;
+      //Serial.println(delayTime);
+      lastMsg = millis();
+      client.publish("Delay", String(delayTime/1000).c_str());
+    }
+    if(!strcmp(topic,"SubBomba")){
+      if(((int)atoi((char *)payload))== 1){
+        digitalWrite(LED_BUILTIN, LOW);
+        Fl_Bomba = 1;
+      }else{
+        digitalWrite(LED_BUILTIN, HIGH);
+        Fl_Bomba = 0;
+      }
+      client.publish("PubBomba",String(Fl_Bomba).c_str());
+      //Serial.println(atoi((char *)payload));
+    }
 
 }
 
@@ -78,13 +107,12 @@ void reconnect() {
     // Create a random client ID
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
-    // Attempt to connect
+
     if (client.connect(clientId.c_str(), mqttUser, mqttPassword )) {
       Serial.println("connected");
-      // Once connected, publish an announcement...
-      client.publish("outTopic", "hello world");
-      // ... and resubscribe
-      client.subscribe("inTopic");
+      
+      Subscribe();
+      
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -96,9 +124,12 @@ void reconnect() {
 }
 
 void setup() {
-  //pinMode(D4, WAKEUP_PULLUP);     // Initialize the BUILTIN_LED pin as an output
-  //digitalWrite(D0,LOW);
   Serial.begin(115200);
+  pinMode(pino_sinal_analogico, INPUT);
+  pinMode(powerPin, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN,HIGH);
+  
   setup_wifi();
 
   sensor_t sensor;
@@ -125,18 +156,10 @@ void setup() {
  
     }
   }
-   //client.publish("leituraPotenciometro",const_cast<char*>(text.c_str()));
-    text = text +"1";
-  //subscreve no tópico
-  client.subscribe(mqttTopicSub);
-  //deepSleep();
- 
-//  client.setServer(mqtt_server, 1883);
-  //client.setCallback(callback);
+  
+  Subscribe();
   dht.begin();
-   // ESP.deepSleep(3e6);
-    //delay(250);
-    //ESP.deepSleep(3e6);
+  
 }
 
 void loop() {
@@ -147,6 +170,11 @@ if (!client.connected()) {
   client.loop();
 
   long now = millis();
+  if (now - lastMsg > (delayTime -2000) && !powerOn){
+    digitalWrite(powerPin,HIGH);
+    //Serial.println("Liga");
+    powerOn = true;
+  }
   if (now - lastMsg > delayTime) {
     lastMsg = now;
     
@@ -156,6 +184,9 @@ if (!client.connected()) {
     String t = String(event.temperature);
     dht.humidity().getEvent(&event);
     String h = String(event.relative_humidity);
+    valor_analogico = analogRead(pino_sinal_analogico);
+    percentual_umidade_solo = (((1023-valor_analogico)/1023)*100);
+    String h_solo = String(percentual_umidade_solo);
     // testa se retorno é valido, caso contrário algo está errado.
     //if (isnan(t) || isnan(h)) 
     if( isnan(event.temperature) || isnan(event.relative_humidity) )
@@ -167,11 +198,20 @@ if (!client.connected()) {
       //Serial.print("Publish message: ");
       //Serial.println(t);
       client.publish("Temperatura", t.c_str());
+      delay(interDelay);
       //Serial.print("Publish message: ");
       //Serial.println(h);
       client.publish("Humidade", h.c_str());
+      delay(interDelay);
+      client.publish("Solo", h_solo.c_str());
+      delay(interDelay);
     }
+    digitalWrite(powerPin,LOW);
+   // Serial.println("Desliga");
+    powerOn = false;
+    client.publish("Delay", String(delayTime/1000).c_str());
+    client.publish("PubBomba",String(Fl_Bomba).c_str());
   }
-  
+   
   
 }
