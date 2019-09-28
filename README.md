@@ -19,7 +19,7 @@ Criando um banco de dados e criando o usuário para o grafana
 ```
 > create database monitoring
 > use monitoring
-> Create user grafana with password '<password>' with all priileges
+> Create user grafana with password '<password>' with all privileges
 ```
 
 ## Configurando a integraçao InfluxDB - Grafana
