@@ -10,7 +10,8 @@ $ docker run -d --name=grafana -p 3000:3000 grafana/grafana
 $ docker run -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb
 ```
 ### Conectando ao influxdb
-> Antes de conectar, deve s alterar o nome do container docker do influxdb usando *docker renama **container_name** influxdb*
+> Antes de conectar, deve s alterar o nome do container docker do influxdb usando 
+> ``` $ *docker renama **container_name** influxdb* ```
 ```
 $ docker exec -it influxdb influx
 ```
