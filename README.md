@@ -22,7 +22,7 @@ Criando um banco de dados e criando o usuário para o grafana
 ```
 
 ## Configurando a integraçao InfluxDB - Grafana
-* Acesse o grafana pelo navegador pelo http://<ip do servidor>:3000, usuario e senha: admin.
+* Acesse o grafana pelo navegador pelo http://[ip do servidor]:3000, usuario e senha: admin.
 * Configure a nova conexão de banco de dados.
 * Importe o json de modelo que se encontra nesse repositório
  
