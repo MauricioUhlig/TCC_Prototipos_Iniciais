@@ -11,7 +11,7 @@ $ docker run -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb
 ```
 ### Conectando ao influxdb
 > Antes de conectar, deve s alterar o nome do container docker do influxdb usando 
-> ``` $ *docker renama **container_name** influxdb* ```
+> ``` $ docker rename <container_name> influxdb ```
 ```
 $ docker exec -it influxdb influx
 ```
