@@ -14,14 +14,14 @@ import paho.mqtt.client as mqtt
 from influxdb import InfluxDBClient
 
 INFLUXDB_ADDRESS = 'localhost'
-INFLUXDB_USER = 'grafana_user'
+INFLUXDB_USER = 'grafana'
 INFLUXDB_PASSWORD = 'grafana_pass'
 INFLUXDB_DATABASE = 'clima'
 
-MQTT_ADDRESS = 'soldier.cloudmqtt.com'
-MQTT_USER = 'psfhemdn'
-MQTT_PASSWORD = 'oenianQ47UJe'
-MQTT_TOPIC = '#'  # [bme280|mijia]/[temperature|humidity|battery|status]
+MQTT_ADDRESS = '192.168.1.200'
+#MQTT_USER = 'psfhemdn'
+#MQTT_PASSWORD = 'oenianQ47UJe'
+MQTT_TOPIC = '#'  
 MQTT_REGEX = '/'
 MQTT_CLIENT_ID = 'MQTTInfluxDBBridge'
 
@@ -107,11 +107,11 @@ def main():
     _init_influxdb_database()
 
     mqtt_client = mqtt.Client(MQTT_CLIENT_ID)
-    mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+    #mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
     mqtt_client.on_connect = on_connect
     mqtt_client.on_message = on_message
 
-    mqtt_client.connect(MQTT_ADDRESS, 16684)
+    mqtt_client.connect(MQTT_ADDRESS, 1883)
     mqtt_client.loop_forever()
 
 
