@@ -37,7 +37,14 @@ $ sudo mkdir -p /srv/mqtt/data/
   ```
  $ docker run -d --name=mosquitto --restart on-failure -p 1883:1883 -p 9001:9001 -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/data/:/mqtt/data/ eclipse-mosquitto
    ```
-
+## Sincronizador
+### Preparando Python
+Instalando as bibliotecas necessáiras
+> Necessário ter o PIP instalado ```$ sudo apt install python-pip```
+```
+$ pip install paho-mqtt
+$ pip install influxdb
+```
  
 
 
