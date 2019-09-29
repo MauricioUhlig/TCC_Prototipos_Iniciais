@@ -4,9 +4,6 @@
 This script receives MQTT data and saves those to InfluxDB.
 """
 
-import re
-from typing import NamedTuple
-
 import time
 from datetime import datetime
 
@@ -21,7 +18,7 @@ INFLUXDB_DATABASE = 'clima'
 MQTT_ADDRESS = 'soldier.cloudmqtt.com'
 MQTT_USER = 'psfhemdn'
 MQTT_PASSWORD = 'oenianQ47UJe'
-MQTT_TOPIC = '#'  # [bme280|mijia]/[temperature|humidity|battery|status]
+MQTT_TOPIC = '#' 
 MQTT_REGEX = '/'
 MQTT_CLIENT_ID = 'MQTTInfluxDBBridge'
 
