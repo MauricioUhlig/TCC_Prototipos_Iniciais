@@ -12,14 +12,14 @@
 // Update these with values suitable for your network.
 
 //informações da rede WIFI
-const char* ssid = "Mauricio";                 //SSID da rede WIFI
-const char* password =  "1nt3rn3t";    //senha da rede wifi
+const char* ssid = "Precioso";                 //SSID da rede WIFI
+const char* password =  "naopossopassar";    //senha da rede wifi
 
 //informações do broker MQTT - Verifique as informações geradas pelo CloudMQTT
-const char* mqttServer = "soldier.cloudmqtt.com";   //server
+const char* mqttServer = "192.168.1.200";   //server
 const char* mqttUser = "psfhemdn";              //user
 const char* mqttPassword = "oenianQ47UJe";      //password
-const int mqttPort = 16684;                     //port
+const int mqttPort = 1883;                     //port
 
 
 const int interDelay = 200;
@@ -108,7 +108,7 @@ void reconnect() {
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
 
-    if (client.connect(clientId.c_str(), mqttUser, mqttPassword )) {
+    if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       
       Subscribe();
