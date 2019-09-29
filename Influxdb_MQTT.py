@@ -4,9 +4,6 @@
 This script receives MQTT data and saves those to InfluxDB.
 """
 
-import re
-from typing import NamedTuple
-
 import time
 from datetime import datetime
 
@@ -18,7 +15,7 @@ INFLUXDB_USER = 'grafana'
 INFLUXDB_PASSWORD = 'grafana_pass'
 INFLUXDB_DATABASE = 'clima'
 
-MQTT_ADDRESS = '192.168.1.200'
+MQTT_ADDRESS = 'localhost'
 #MQTT_USER = 'psfhemdn'
 #MQTT_PASSWORD = 'oenianQ47UJe'
 MQTT_TOPIC = '#'  
