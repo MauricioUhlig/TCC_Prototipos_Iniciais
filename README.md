@@ -26,5 +26,18 @@ Criando um banco de dados e criando o usuário para o grafana
 * Configure a nova conexão de banco de dados.
 * Importe o json de modelo que se encontra nesse repositório
  
+ ## Proparando o broker mqtt
+ ### Criado pastas para uso do mosquitto
+ ```
+$ sudo mkdir -p /srv/mqtt/log
+$ sudo mkdir -p /srv/mqtt/data/
+$ sudo mkdir -p /srv/mqtt/data/
+ ```
+ ### Instalando Mosquitto via docker
+  ```
+ $ docker run -d --name=mosquitto --restart on-failure -p 1883:1883 -p 9001:9001 -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/data/:/mqtt/data/ eclipse-mosquitto
+   ```
+
+ 
 
 
