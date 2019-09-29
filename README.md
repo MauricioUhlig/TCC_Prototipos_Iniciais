@@ -37,6 +37,12 @@ $ sudo mkdir -p /srv/mqtt/data/
   ```
  $ docker run -d --name=mosquitto --restart on-failure -p 1883:1883 -p 9001:9001 -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/log:/mqtt/log -v /srv/mqtt/data/:/mqtt/data/ eclipse-mosquitto
    ```
+ 
+## Iniciando os containers automaticamente 
+ ```
+ $ docker update --restart=always grafana influxdb mosquitto
+  ```
+  
 ## Sincronizador
 ### Preparando Python
 Instalando as bibliotecas necessáiras
