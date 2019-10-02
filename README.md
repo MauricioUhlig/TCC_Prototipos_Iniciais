@@ -45,12 +45,28 @@ $ sudo mkdir -p /srv/mqtt/data/
   
 ## Sincronizador
 ### Preparando Python
-Instalando as bibliotecas necessáiras
-> Necessário ter o PIP instalado ```$ sudo apt install python-pip```
+Criando o Dockerfile
 ```
-$ pip install paho-mqtt
-$ pip install influxdb
+$ mkdir docker && cp ../scripts/sync.py . && touch Dockerfile && nano Dockerfile
 ```
+Preencha o arquivo com o seguinte:
+```
+FROM python:2-alpine
+RUN pip install paho-mqtt influxdb
+COPY . .
+CMD python sync.py
+EXPOSE 1883
+EXPOSE 8086
+```
+Execute para gerar a imagem: 
+```
+$ docker build -t python-sync .
+```
+Colocando a imagem para rodar 
+```
+$ docker run -d --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync
+```
+
  
 
 
