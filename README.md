@@ -53,8 +53,7 @@ Preencha o arquivo com o seguinte:
 ```
 FROM python:2-alpine
 RUN pip install paho-mqtt influxdb
-COPY . .
-CMD python sync.py
+CMD python /home/sync.py
 EXPOSE 1883
 EXPOSE 8086
 ```
