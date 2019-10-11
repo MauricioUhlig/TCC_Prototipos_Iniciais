@@ -64,7 +64,7 @@ $ docker build -t python-sync .
 ```
 Colocando a imagem para rodar 
 ```
-$ docker run -d --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync
+$ docker run -d -v /home/ubuntu/scripts:/home --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync
 ```
 
  
