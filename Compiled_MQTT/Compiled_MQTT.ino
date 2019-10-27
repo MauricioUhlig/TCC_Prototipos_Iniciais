@@ -11,15 +11,14 @@
 #define DHTTYPE DHT11 // DHT 11
 // Update these with values suitable for your network.
 
-//informações da rede WIFI
-const char* ssid = "Mauricio";                 //SSID da rede WIFI
-const char* password =  "1nt3rn3t";    //senha da rede wifi
+const char* ssid = "Precioso";                 //SSID da rede WIFI
+const char* password =  "naopossopassar";    //senha da rede wifi
 
 //informações do broker MQTT - Verifique as informações geradas pelo CloudMQTT
-const char* mqttServer = "soldier.cloudmqtt.com";   //server
-const char* mqttUser = "psfhemdn";              //user
-const char* mqttPassword = "oenianQ47UJe";      //password
-const int mqttPort = 16684;                     //port
+const char* mqttServer = "192.168.1.200";   //server
+//const char* mqttUser = "psfhemdn";              //user
+//const char* mqttPassword = "oenianQ47UJe";      //password
+const int mqttPort = 1883;                     //port
 
 
 const int interDelay = 200;
@@ -108,7 +107,7 @@ void reconnect() {
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
 
-    if (client.connect(clientId.c_str(), mqttUser, mqttPassword )) {
+    if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       
       Subscribe();
@@ -142,7 +141,7 @@ void setup() {
     Serial.println("Conectando ao Broker MQTT...");
     //#endif
  
-    if (client.connect("ESP8266Client", mqttUser, mqttPassword )) {
+    if (client.connect("ESP8266Client" )) {
       //#ifdef DEBUG
       Serial.println("Conectado");  
       //#endif
@@ -185,6 +184,7 @@ if (!client.connected()) {
     dht.humidity().getEvent(&event);
     String h = String(event.relative_humidity);
     valor_analogico = analogRead(pino_sinal_analogico);
+    //Serial.println(valor_analogico);
     percentual_umidade_solo = (((1023-valor_analogico)/1023)*100);
     String h_solo = String(percentual_umidade_solo);
     // testa se retorno é valido, caso contrário algo está errado.
@@ -210,7 +210,6 @@ if (!client.connected()) {
    // Serial.println("Desliga");
     powerOn = false;
     client.publish("Delay", String(delayTime/1000).c_str());
-    client.publish("PubBomba",String(Fl_Bomba).c_str());
   }
    
   
