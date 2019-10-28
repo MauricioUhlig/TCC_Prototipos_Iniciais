@@ -47,7 +47,7 @@ $ sudo mkdir -p /srv/mqtt/data/
 ### Preparando Python
 Criando o Dockerfile
 ```
-$ mkdir docker && cp ../scripts/sync.py . && touch Dockerfile && nano Dockerfile
+$ mkdir docker_sync && cd docker_sync && touch Dockerfile && nano Dockerfile
 ```
 Preencha o arquivo com o seguinte:
 ```
@@ -66,6 +66,26 @@ Colocando a imagem para rodar
 $ docker run -d -v /home/ubuntu/scripts:/home --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync
 ```
 
- 
+## Acionador
+### Preparando Python
+Criando o Dockerfile
+```
+$ mkdir docker_start && cd docker_start && touch Dockerfile && nano Dockerfile
+```
+Preencha o arquivo com o seguinte:
+```
+FROM python-sync
+CMD python /home/start.py
+EXPOSE 1883
+EXPOSE 8086
+```
+Execute para gerar a imagem: 
+```
+$ docker build -t python-start .
+```
+Colocando a imagem para rodar 
+```
+$ docker run -d -v /home/ubuntu/scripts:/home --name=start --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-start
+```
 
 
