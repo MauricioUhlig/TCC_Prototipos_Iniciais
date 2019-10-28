@@ -51,8 +51,8 @@ $ mkdir docker_sync && cd docker_sync && touch Dockerfile && nano Dockerfile
 ```
 Preencha o arquivo com o seguinte:
 ```
-FROM python:2-alpine
-RUN pip install paho-mqtt influxdb
+FROM python:3-alpine
+RUN pip3 install paho-mqtt influxdb
 CMD python /home/sync.py
 EXPOSE 1883
 EXPOSE 8086
@@ -75,7 +75,7 @@ $ mkdir docker_start && cd docker_start && touch Dockerfile && nano Dockerfile
 Preencha o arquivo com o seguinte:
 ```
 FROM python-sync:latest
-CMD python /home/start.py
+CMD python3 /home/start.py
 EXPOSE 1883
 EXPOSE 8086
 ```
