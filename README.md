@@ -59,11 +59,11 @@ EXPOSE 8086
 ```
 Execute para gerar a imagem: 
 ```
-$ docker build -t python-sync .
+$ docker build -t python-sync:1.0 .
 ```
 Colocando a imagem para rodar 
 ```
-$ docker run -d -v /home/ubuntu/scripts:/home --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync
+$ docker run -d -v /home/ubuntu/scripts:/home --name=sync --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-sync:1.0
 ```
 
 ## Acionador
@@ -74,18 +74,18 @@ $ mkdir docker_start && cd docker_start && touch Dockerfile && nano Dockerfile
 ```
 Preencha o arquivo com o seguinte:
 ```
-FROM python-sync:latest
+FROM python-sync:1.0
 CMD python3 /home/start.py
 EXPOSE 1883
 EXPOSE 8086
 ```
 Execute para gerar a imagem: 
 ```
-$ docker build -t python-start .
+$ docker build -t python-start:1.0 .
 ```
 Colocando a imagem para rodar 
 ```
-$ docker run -d -v /home/ubuntu/scripts:/home --name=start --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-start
+$ docker run -d -v /home/ubuntu/scripts:/home --name=start --link influxdb:influxdb --link mosquitto:mosquitto --restart=always python-start:1.0
 ```
 
 
