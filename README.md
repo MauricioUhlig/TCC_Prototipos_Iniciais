@@ -74,7 +74,7 @@ $ mkdir docker_start && cd docker_start && touch Dockerfile && nano Dockerfile
 ```
 Preencha o arquivo com o seguinte:
 ```
-FROM python-sync
+FROM python-sync:latest
 CMD python /home/start.py
 EXPOSE 1883
 EXPOSE 8086
